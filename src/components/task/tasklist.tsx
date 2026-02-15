@@ -93,8 +93,8 @@ const TaskList = () => {
                                 className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition duration-300"
                             >
                                 {/* Status Toggle */}
-                                {/* <div className="flex items-start justify-between mb-4">
-                                    <button
+                                <div className="flex items-start justify-between mb-4">
+                                    {/* <button
                                         onClick={() => handleToggleStatus(task)}
                                         className="text-white/70 hover:text-white transition"
                                     >
@@ -103,14 +103,14 @@ const TaskList = () => {
                                         ) : (
                                             <Circle size={24} />
                                         )}
-                                    </button>
+                                    </button> */}
                                     <button
                                         onClick={() => handleDelete(task._id)}
                                         className="text-red-400 hover:text-red-300 transition"
                                     >
                                         <Trash2 size={20} />
                                     </button>
-                                </div> */}
+                                </div>
 
                                 <h3 className={`text-xl font-bold mb-2 ${task.status === "completed" ? "line-through text-white/60" : "text-white"
                                     }`}>
