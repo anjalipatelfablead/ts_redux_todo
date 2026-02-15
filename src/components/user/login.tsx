@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/slice/userSlice";
-import type { AppDispatch, RootState } from "../../redux/store";
+import type { AppDispatch } from "../../redux/store";
 import authbg from "../../assets/authbg.jpg";
 import { User, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const { token, loading, error } = useSelector((state: RootState) => state.user);
 
     const [form, setForm] = useState({
         email: "",
@@ -24,13 +23,6 @@ const Login = () => {
         e.preventDefault();
         dispatch(loginUser(form));
     };
-
-    // Redirect to tasks after successful login
-    useEffect(() => {
-        if (token) {
-            navigate("/tasks");
-        }
-    }, [token, navigate]);
 
     //    return (
     //     <div className="min-h-screen flex">
@@ -134,20 +126,12 @@ const Login = () => {
                             />
                         </div>
 
-                        {/* Error Message */}
-                        {error && (
-                            <div className="bg-red-500/30 border border-red-400 text-white px-4 py-2 rounded-lg text-sm">
-                                {error}
-                            </div>
-                        )}
-
                         {/* Button */}
                         <button
                             type="submit"
-                            disabled={loading}
-                            className="w-full bg-pink-500 hover:bg-pink-600 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full bg-pink-500 hover:bg-pink-600 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer"
                         >
-                            {loading ? "LOGGING IN..." : "LOGIN"}
+                            LOGIN
                         </button>
 
                         {/* Remember / Forgot */}

@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/slice/userSlice";
-import type { AppDispatch, RootState } from "../../redux/store";
+import type { AppDispatch } from "../../redux/store";
 import authbg from "../../assets/authbg.jpg";
 import { User, Lock, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +9,6 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
     const navigate=useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const { loading, error } = useSelector((state: RootState) => state.user);
-    const [successMessage, setSuccessMessage] = useState("");
 
     const [form, setForm] = useState({
         username: "",
@@ -22,15 +20,9 @@ const Register = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const result = await dispatch(registerUser(form));
-        if (result.type === "user/register/fulfilled") {
-            setSuccessMessage("Registration successful! Redirecting to login...");
-            setTimeout(() => {
-                navigate("/login");
-            }, 2000);
-        }
+        dispatch(registerUser(form));
     };
     // return (
     //     <div className="min-h-screen flex">
@@ -156,27 +148,12 @@ const Register = () => {
                             />
                         </div>
 
-                        {/* Success Message */}
-                        {successMessage && (
-                            <div className="bg-green-500/30 border border-green-400 text-white px-4 py-2 rounded-lg text-sm">
-                                {successMessage}
-                            </div>
-                        )}
-
-                        {/* Error Message */}
-                        {error && (
-                            <div className="bg-red-500/30 border border-red-400 text-white px-4 py-2 rounded-lg text-sm">
-                                {error}
-                            </div>
-                        )}
-
                         {/* Button */}
                         <button
                             type="submit"
-                            disabled={loading}
-                            className="w-full bg-pink-500 hover:bg-pink-600 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full bg-pink-500 hover:bg-pink-600 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer"
                         >
-                            {loading ? "REGISTERING..." : "REGISTER"}
+                            REGISTER
                         </button>
 
                         <div className="border-t border-white/30 pt-4 text-center text-xs text-white/60">
