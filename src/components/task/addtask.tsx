@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { createTask, getAllTasks } from "../../redux/slice/taskSlice";
 import type { AppDispatch } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 
 const AddTask = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -38,7 +37,7 @@ const AddTask = () => {
         setLoading(true);
         try {
             await dispatch(createTask(form)).unwrap();
-            await dispatch(getAllTasks());
+            // await dispatch(getAllTasks());
             navigate("/task");
         } catch (err: any) {
             setError(err || "Failed to create task");
@@ -48,76 +47,69 @@ const AddTask = () => {
     };
 
     return (
-        <div className="min-h-screen flex">
-            <div className="hidden md:flex w-1/2 relative bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-900 items-center justify-center">
-                <div className="text-center text-white">
-                    <h2 className="text-5xl font-bold mb-4">Create New Task</h2>
-                    <p className="text-xl text-white/80">Organize your work and stay productive</p>
-                </div>
-            </div>
+        // <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4">
+        <div className="flex items-center justify-center p-8 pt-10">
+            <div className="w-full max-w-6xl">
+                <div className="rounded-xl p-10 bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-800 shadow-2xl text-white backdrop-blur-lg">
 
-            <div className="flex w-full md:w-1/2 items-center justify-center">
-                <div className="w-full max-w-lg rounded-3xl p-8
-            bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-900
-            shadow-2xl text-white m-4">
-
-                    <button
-                        onClick={() => navigate("/task")}
-                        className="flex items-center gap-2 text-white/80 hover:text-white mb-6 transition"
-                    >
-                        <ArrowLeft size={20} />
-                        Back to Tasks
-                    </button>
-
-                    <h2 className="text-3xl font-bold mb-8 text-center">
+                    <h2 className="text-4xl font-extrabold mb-10 text-center tracking-wide  border-b-4 border-pink-400  pb-2">
                         Add New Task
                     </h2>
 
                     {error && (
-                        <div className="bg-red-500/30 border border-red-400 text-red-100 px-4 py-3 rounded-lg mb-6">
+                        <div className="bg-red-500/30 border border-red-300 text-red-100 px-4 py-3 rounded-xl mb-6 text-center">
                             {error}
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-8">
 
-                        <div>
-                            <label className="block text-sm font-semibold mb-2">
-                                Task Title
-                            </label>
-                            <input
-                                name="title"
-                                type="text"
-                                placeholder="Enter task title"
-                                value={form.title}
-                                onChange={handleChange}
-                                className="w-full bg-white/20 rounded-lg px-4 py-3 text-white placeholder-white/70 outline-none focus:ring-2 focus:ring-pink-300 backdrop-blur-md"
-                            />
+                        {/* Responsive Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                            <div>
+                                <label className="block text-sm font-semibold mb-2 tracking-wide">
+                                    Task Title
+                                </label>
+                                <input
+                                    name="title"
+                                    type="text"
+                                    placeholder="Enter task title"
+                                    value={form.title}
+                                    onChange={handleChange}
+                                    className="w-full bg-white/20 rounded-xl px-4 py-3 text-white placeholder-white/80 outline-none focus:ring-2 focus:ring-pink-300 focus:scale-[1.02] transition duration-300 backdrop-blur-md shadow-md"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold mb-2 tracking-wide">
+                                    Description
+                                </label>
+                                <textarea
+                                    name="description"
+                                    placeholder="Enter task description"
+                                    value={form.description}
+                                    onChange={handleChange}
+                                    rows={1}
+                                    className="w-full bg-white/20 rounded-xl px-4 py-3 text-white placeholder-white/80 outline-none focus:ring-2 focus:ring-pink-300 focus:scale-[1.02] transition duration-300 backdrop-blur-md shadow-md resize-none"
+                                />
+                            </div>
+
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-semibold mb-2">
-                                Description
-                            </label>
-                            <textarea
-                                name="description"
-                                placeholder="Enter task description"
-                                value={form.description}
-                                onChange={handleChange}
-                                rows={5}
-                                className="w-full bg-white/20 rounded-lg px-4 py-3 text-white placeholder-white/70 outline-none focus:ring-2 focus:ring-pink-300 backdrop-blur-md resize-none"
-                            />
+                        {/* Button */}
+                        <div className="flex justify-center pt-4">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full  md:w-1/2 bg-pink-500 hover:bg-pink-600 disabled:bg-pink-400 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer"
+                            >
+                                {loading ? "Creating..." : "Create Task"}
+                            </button>
                         </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-pink-500 hover:bg-pink-600 disabled:bg-pink-400 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer"
-                        >
-                            {loading ? "Creating..." : "Create Task"}
-                        </button>
 
                     </form>
+
                 </div>
             </div>
         </div>

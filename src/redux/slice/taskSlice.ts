@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
 /* -------------- TASK INTERFACE -------------- */
 
 export interface Task {
@@ -49,7 +48,12 @@ export const getAllTasks = createAsyncThunk<
     { rejectValue: string }
 >("task/getAllTasks", async (_, { rejectWithValue }) => {
     try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
+
+        if (!token) {
+            return rejectWithValue("Unauthorized user. Please login.");
+        }
+
         const response = await axios.get(`${BASE_URL}/task`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -63,6 +67,37 @@ export const getAllTasks = createAsyncThunk<
     }
 });
 
+/* -------------- GET TASK BY USERID -------------- */
+
+export const getTasksByUser = createAsyncThunk<
+    Task[],
+    string,
+    { rejectValue: string }
+>("task/getTasksByUser", async (userId, { rejectWithValue }) => {
+    try {
+        const token = sessionStorage.getItem("token");
+
+        if (!token) {
+            return rejectWithValue("Unauthorized user. Please login.");
+        }
+
+        const response = await axios.get(
+            `${BASE_URL}/task/user/${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(
+            error.response?.data?.message || "Failed to fetch user tasks"
+        );
+    }
+});
+
 /* -------------- CREATE TASK -------------- */
 
 export const createTask = createAsyncThunk<
@@ -71,13 +106,21 @@ export const createTask = createAsyncThunk<
     { rejectValue: string }
 >("task/createTask", async (data, { rejectWithValue }) => {
     try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
+
+        const storeduser = sessionStorage.getItem("data");
+        const user = storeduser ? JSON.parse(storeduser) : null;
+
+        if (!token) {
+            return rejectWithValue("Unauthorized user. Please login.");
+        }
 
         const response = await axios.post(
             `${BASE_URL}/task`,
             {
                 title: data.title,
                 description: data.description,
+                user: user._id,
             },
             {
                 headers: {
@@ -102,7 +145,11 @@ export const updateTask = createAsyncThunk<
     { rejectValue: string }
 >("task/updateTask", async ({ taskId, data }, { rejectWithValue }) => {
     try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
+
+        if (!token) {
+            return rejectWithValue("Unauthorized user. Please login.");
+        }
 
         const response = await axios.put(
             `${BASE_URL}/task/${taskId}`,
@@ -131,7 +178,12 @@ export const deleteTask = createAsyncThunk<
     { rejectValue: string }
 >("task/deleteTask", async (taskId, { rejectWithValue }) => {
     try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
+        
+        if (!token) {
+            return rejectWithValue("Unauthorized user. Please login.");
+        }
+
         await axios.delete(`${BASE_URL}/task/${taskId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -166,6 +218,19 @@ const taskSlice = createSlice({
                 state.tasks = action.payload;
             })
             .addCase(getAllTasks.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Failed to fetch tasks";
+            })
+            //---------- GET TASK BY USERID ----------
+            .addCase(getTasksByUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getTasksByUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.tasks = action.payload;
+            })
+            .addCase(getTasksByUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Failed to fetch tasks";
             })

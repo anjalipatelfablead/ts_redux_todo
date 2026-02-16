@@ -36,7 +36,7 @@ interface UserState {
 
 const initialState: UserState = {
     user: null,
-    token: localStorage.getItem("token"),
+    token: sessionStorage.getItem("token"),
     loading: false,
     error: null,
 };
@@ -70,8 +70,9 @@ export const loginUser = createAsyncThunk<
     try {
         const response = await axios.post(`${BASE_URL}/user/login`, data);
 
-        localStorage.setItem("token", response.data.token);
-
+        // localStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("data", JSON.stringify(response.data.user));
         return {
             user: response.data.user,
             token: response.data.token,
@@ -93,7 +94,7 @@ const userSlice = createSlice({
             state.user = null;
             state.token = null;
             state.error = null;
-            localStorage.removeItem("token");
+            sessionStorage.removeItem("token");
         },
     },
     extraReducers: (builder) => {
