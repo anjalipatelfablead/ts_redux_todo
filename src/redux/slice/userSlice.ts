@@ -52,7 +52,14 @@ export const registerUser = createAsyncThunk<
     { rejectValue: string }
 >("user/register", async (data, { rejectWithValue }) => {
     try {
-        await axios.post(`${BASE_URL}/user`, data);
+        // await axios.post(`${BASE_URL}/user`, data);
+        const formData = new FormData();
+
+        formData.append("username", data.username);
+        formData.append("email", data.email);
+        formData.append("password", data.password);
+
+        await axios.post(`${BASE_URL}/user`, formData);
     } catch (error: any) {
         return rejectWithValue(
             error.response?.data?.message || "Register failed"
@@ -68,7 +75,13 @@ export const loginUser = createAsyncThunk<
     { rejectValue: string }
 >("user/login", async (data, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${BASE_URL}/user/login`, data);
+        // const response = await axios.post(`${BASE_URL}/user/login`, data);
+
+        const formdata = new FormData();
+        formdata.append("email", data.email);
+        formdata.append("password", data.password);
+
+        const response = await axios.post(`${BASE_URL}/user/login`, formdata);
 
         // localStorage.setItem("token", response.data.token);
         sessionStorage.setItem("token", response.data.token);

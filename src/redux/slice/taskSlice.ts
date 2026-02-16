@@ -121,13 +121,13 @@ export const createTask = createAsyncThunk<
             return rejectWithValue("Unauthorized user. Please login.");
         }
 
+        const formData = new FormData();
+        formData.append("title", data.title);
+        formData.append("description", data.description);
+        formData.append("user", user._id);
+
         const response = await axios.post(
-            `${BASE_URL}/task`,
-            {
-                title: data.title,
-                description: data.description,
-                user: user._id,
-            },
+            `${BASE_URL}/task`, formData,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -157,9 +157,21 @@ export const updateTask = createAsyncThunk<
             return rejectWithValue("Unauthorized user. Please login.");
         }
 
+        const formData = new FormData();
+        if (data.title !== undefined) {
+            formData.append("title", data.title);
+        }
+
+        if (data.description !== undefined) {
+            formData.append("description", data.description);
+        }
+        if (data.status !== undefined) {
+            formData.append("status", data.status);
+        }
+        
         const response = await axios.put(
             `${BASE_URL}/task/${taskId}`,
-            data,
+            formData,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
