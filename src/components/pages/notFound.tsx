@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import notfoundbg from "../../assets/404page.jpg"
 
 export default function NotFound() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     return (
         // <div className="min-h-screen flex items-center justify-center ">
