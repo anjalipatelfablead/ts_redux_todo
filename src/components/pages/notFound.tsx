@@ -15,12 +15,12 @@ export default function NotFound() {
                     className="w-3xl md:w-3xl "
                 />
 
-                <button
+                {/* <button
                     onClick={() => navigate("/login")}
                     className="mt-1  bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-xl font-semibold text-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
                 >
                     Go Back Home
-                </button>
+                </button> */}
             </div>
         </div>
     );
