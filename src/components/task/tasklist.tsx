@@ -170,7 +170,7 @@ const TaskList = () => {
                                         <div className="flex items-start justify-between mb-4">
                                             <button
                                                 onClick={() => handleToggleStatus(task)}
-                                                className="text-black/70 hover:text-black transition"
+                                                className="text-black/70 hover:text-black transition cursor-pointer"
                                             >
                                                 {task.status === "completed" ? (
                                                     <CheckCircle size={24} className="text-green-400" />
