@@ -2,12 +2,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 /* -------------- TASK INTERFACE -------------- */
 
+interface TaskUser {
+    _id: string;
+    username: string;
+    email: string;
+}
 export interface Task {
     _id: string;
     title: string;
     description: string;
     status: "pending" | "in progress" | "completed";
-    userId: string;
+    // userId: string;
+    user?: TaskUser;
     createdAt?: string;
     updatedAt?: string;
 }
@@ -179,7 +185,7 @@ export const deleteTask = createAsyncThunk<
 >("task/deleteTask", async (taskId, { rejectWithValue }) => {
     try {
         const token = sessionStorage.getItem("token");
-        
+
         if (!token) {
             return rejectWithValue("Unauthorized user. Please login.");
         }

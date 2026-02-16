@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTasks, deleteTask, updateTask, getTasksByUser } from "../../redux/slice/taskSlice";
 import type { AppDispatch, RootState } from "../../redux/store";
-import { Trash2, CheckCircle, Circle, Plus } from "lucide-react";
+import { Trash2, CheckCircle, Circle, Plus, FilePen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AddTask from "./addtask";
 import { jwtDecode } from 'jwt-decode';
@@ -22,6 +22,10 @@ const TaskList = () => {
     const navigate = useNavigate();
     const { tasks, loading, error } = useSelector((state: RootState) => state.task);
     const [searchTerm, setSearchTerm] = useState("");
+    const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+    const [editTitle, setEditTitle] = useState("");
+    const [editDescription, setEditDescription] = useState("");
+
 
     // useEffect(() => {
     //     dispatch(getAllTasks());
@@ -43,6 +47,30 @@ const TaskList = () => {
         if (confirm("Are you sure you want to delete this task?")) {
             dispatch(deleteTask(taskId));
         }
+    };
+
+    const handleEdit = (task: any) => {
+        setEditingTaskId(task._id);
+        setEditTitle(task.title);
+        setEditDescription(task.description);
+    };
+
+    const handleCancelEdit = () => {
+        setEditingTaskId(null);
+        setEditTitle("");
+        setEditDescription("");
+    };
+
+
+    const handleSaveEdit = (taskId: string) => {
+        dispatch(updateTask({
+            taskId,
+            data: {
+                title: editTitle,
+                description: editDescription,
+            }
+        }));
+        setEditingTaskId(null);
     };
 
     const handleToggleStatus = (task: any) => {
@@ -139,27 +167,34 @@ const TaskList = () => {
                                         key={task._id}
                                         className="bg-white/80 backdrop-blur-md rounded-xl p-6 border border-white/20 hover:bg-gray/90 transition duration-300"
                                     >
-                                        {/* Status Toggle */}
                                         <div className="flex items-start justify-between mb-4">
-                                            {/* <button
-                                        onClick={() => handleToggleStatus(task)}
-                                        className="text-white/70 hover:text-white transition"
-                                    >
-                                        {task.status === "completed" ? (
-                                            <CheckCircle size={24} className="text-green-400" />
-                                        ) : (
-                                            <Circle size={24} />
-                                        )}
-                                    </button> */}
                                             <button
-                                                onClick={() => handleDelete(task._id)}
-                                                className="text-red-400 hover:text-red-300 transition cursor-pointer"
+                                                onClick={() => handleToggleStatus(task)}
+                                                className="text-black/70 hover:text-black transition"
                                             >
-                                                <Trash2 size={20} />
+                                                {task.status === "completed" ? (
+                                                    <CheckCircle size={24} className="text-green-400" />
+                                                ) : (
+                                                    <Circle size={24} />
+                                                )}
                                             </button>
+                                            <div className="flex gap-3">
+                                                <button
+                                                    onClick={() => handleEdit(task)}
+                                                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                                                >
+                                                    {task.status !== "completed" && <FilePen size={20} />}
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(task._id)}
+                                                    className="text-red-400 hover:text-red-700 transition cursor-pointer"
+                                                >
+                                                    <Trash2 size={20} />
+                                                </button>
+                                            </div>
                                         </div>
 
-                                        <h3 className={`text-xl font-bold mb-2 ${task.status === "completed" ? "line-through text-black/60" : "text-black"
+                                        {/* <h3 className={`text-xl font-bold mb-2 ${task.status === "completed" ? "line-through text-black/60" : "text-black"
                                             }`}>
                                             {task.title}
                                         </h3>
@@ -167,7 +202,66 @@ const TaskList = () => {
                                         <p className={`text-sm mb-4 ${task.status === "completed" ? "text-black/50" : "text-black/70"
                                             }`}>
                                             {task.description}
-                                        </p>
+                                        </p> */}
+
+                                        {editingTaskId === task._id ? (
+                                            <>
+                                                <input
+                                                    value={editTitle}
+                                                    onChange={(e) => setEditTitle(e.target.value)}
+                                                    className="w-full mb-2 px-2 py-1  border-b-4 border-pink-400"
+                                                />
+
+                                                <textarea
+                                                    value={editDescription}
+                                                    onChange={(e) => setEditDescription(e.target.value)}
+                                                    className="w-full mb-2 px-2 py-1  border-b-4 border-pink-400"
+                                                    rows={1}
+                                                />
+
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => handleSaveEdit(task._id)}
+                                                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                                                    >
+                                                        Save
+                                                    </button>
+
+                                                    <button
+                                                        onClick={handleCancelEdit}
+                                                        className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm"
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                {userRole === "admin" && (
+                                                    <div className="mb-3 p-2 bg-purple-100 rounded text-md">
+                                                        <p className="font-semibold text-purple-800">
+                                                            Username: {task.user?.username}
+                                                        </p>
+                                                        <p className="text-purple-600">
+                                                            Email: {task.user?.email}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                                <h3 className={`text-xl font-bold mb-2 ${task.status === "completed"
+                                                    ? "line-through text-black/60"
+                                                    : "text-black"
+                                                    }`}>
+                                                    Title: {task.title}
+                                                </h3>
+
+                                                <p className={`text-sm mb-4 ${task.status === "completed"
+                                                    ? "line-through text-black/50"
+                                                    : "text-black/70"
+                                                    }`}>
+                                                    Description: {task.description}
+                                                </p>
+                                            </>
+                                        )}
 
                                         <div className="flex justify-end">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${task.status === "completed"
