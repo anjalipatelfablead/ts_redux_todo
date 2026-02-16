@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createTask, getAllTasks } from "../../redux/slice/taskSlice";
+import { createTask } from "../../redux/slice/taskSlice";
 import type { AppDispatch } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 

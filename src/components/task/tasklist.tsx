@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTasks, deleteTask, updateTask, getTasksByUser } from "../../redux/slice/taskSlice";
 import type { AppDispatch, RootState } from "../../redux/store";
-import { Trash2, CheckCircle, Circle, Plus, FilePen } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Trash2, CheckCircle, Circle, FilePen } from "lucide-react";
 import AddTask from "./addtask";
 import { jwtDecode } from 'jwt-decode';
 
@@ -19,7 +18,6 @@ interface CustomJWTPayload {
 
 const TaskList = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const navigate = useNavigate();
     const { tasks, loading, error } = useSelector((state: RootState) => state.task);
     const [searchTerm, setSearchTerm] = useState("");
     const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
@@ -121,13 +119,6 @@ const TaskList = () => {
                                     {tasks.length} total tasks
                                 </p>
                             </div>
-                            {/* <button
-                                onClick={() => navigate("/task/add")}
-                                className="flex items-center gap-2 bg-pink-500 hover:bg-pink-600 transition duration-300 text-white px-6 py-3 rounded-lg font-bold cursor-pointer"
-                            >
-                                <Plus size={20} />
-                                Add Task
-                            </button> */}
                         </div>
 
                         {/* Search Bar */}
@@ -209,13 +200,13 @@ const TaskList = () => {
                                                 <input
                                                     value={editTitle}
                                                     onChange={(e) => setEditTitle(e.target.value)}
-                                                    className="w-full mb-2 px-2 py-1  border-b-4 border-pink-400"
+                                                    className="w-full mb-2 px-2 py-1  border-b-4 border-pink-400 focus:outline-none "
                                                 />
 
                                                 <textarea
                                                     value={editDescription}
                                                     onChange={(e) => setEditDescription(e.target.value)}
-                                                    className="w-full mb-2 px-2 py-1  border-b-4 border-pink-400"
+                                                    className="w-full mb-2 px-2 py-1  border-b-4 border-pink-400 focus:outline-none"
                                                     rows={1}
                                                 />
 
