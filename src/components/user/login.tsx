@@ -19,10 +19,10 @@ const Login = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        dispatch(loginUser(form));
-    };
+    // const handleSubmit = (e: any) => {
+    //     e.preventDefault();
+    //     dispatch(loginUser(form));
+    // };
 
     //    return (
     //     <div className="min-h-screen flex">
@@ -71,11 +71,21 @@ const Login = () => {
     //     </div>
     //   );
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            await dispatch(loginUser(form)).unwrap();
+            navigate("/task");
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
 
     return (
         <div className="min-h-screen flex ">
-
-            {/* LEFT IMAGE SIDE */}
+            {/* image */}
             <div className="hidden md:flex w-1/2 relative">
                 <img
                     src={authbg}
@@ -84,25 +94,19 @@ const Login = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-pink-500/40 to-indigo-900/60"></div>
             </div>
+            {/* form */}
+            <div className="flex w-4xl md:w-1/2 items-center justify-center">
 
-            {/* RIGHT LOGIN SIDE */}
-            <div className="flex w-3xl md:w-1/2 items-center justify-center">
+                <div className="w-full max-w-xl rounded-3xl p-8 bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-900 shadow-2xl text-white">
 
-                <div className="w-full max-w-lg rounded-3xl p-8
-            bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-900
-            shadow-2xl text-white">
-
-                    {/* Avatar Circle */}
                     <div className="flex justify-center mb-8">
                         <div className="w-24 h-24 rounded-full border-2 border-white flex items-center justify-center">
                             <User size={40} />
                         </div>
                     </div>
 
-                    {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-6">
 
-                        {/* Email */}
                         <div className="flex items-center bg-white/20 rounded-lg px-4 py-3 backdrop-blur-md">
                             <User className="text-white mr-3" size={20} />
                             <input
@@ -114,7 +118,6 @@ const Login = () => {
                             />
                         </div>
 
-                        {/* Password */}
                         <div className="flex items-center bg-white/20 rounded-lg px-4 py-3 backdrop-blur-md">
                             <Lock className="text-white mr-3" size={20} />
                             <input
@@ -126,7 +129,6 @@ const Login = () => {
                             />
                         </div>
 
-                        {/* Button */}
                         <button
                             type="submit"
                             className="w-full bg-pink-500 hover:bg-pink-600 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer"
@@ -145,9 +147,9 @@ const Login = () => {
                             </span>
                         </div> */}
 
-                        <div className="border-t border-white/30 pt-4 text-center text-xs text-white/60">
+                        <div className="border-t border-white/30 pt-4 text-center text-md text-white/60">
                             don't have an account? <span className="text-white font-semibold hover:underline cursor-pointer"
-                            onClick={()=> navigate("/register")} >Sign up</span>
+                                onClick={() => navigate("/register")} >Sign up</span>
                         </div>
 
                     </form>
