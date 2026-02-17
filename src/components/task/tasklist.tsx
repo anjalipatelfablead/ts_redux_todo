@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTasks, deleteTask, updateTask, getTasksByUser } from "../../redux/slice/taskSlice";
 import type { AppDispatch, RootState } from "../../redux/store";
-import { Trash2, CheckCircle, Circle, FilePen } from "lucide-react";
+import { Trash2, CheckCircle, Circle, FilePen, Search } from "lucide-react";
 import AddTask from "./addtask";
 import { jwtDecode } from 'jwt-decode';
 
@@ -102,162 +102,169 @@ const TaskList = () => {
 
     return (
         <>
-            <div className="bg-gradient-to-br from-pink-200 via-purple-200 to-indigo-300">
+            <div className="min-h-screen bg-gray-50">
                 {/* <AddTask /> */}
 
                 {userRole == "user" && <AddTask />}
 
-                {/* // <div className="min-h-screen bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-900 opacity-100 p-8"> */}
-                <div className="min-h-screen p-8">
+                <div className="w-full border-b border-gray-200"></div>
+
+                <div className="p-8">
                     <div className="max-w-6xl mx-auto">
-                        <div className="flex justify-between items-center mb-8">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
                             <div>
-                                <h1 className="text-4xl font-bold text-black mb-2">
+                                <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
                                     My Tasks
                                 </h1>
-                                <p className="text-black/70">
-                                    {tasks.length} total tasks
+                                <p className="text-gray-500 font-medium">
+                                    You have <span className="text-purple-600">{tasks.length}</span> total tasks
                                 </p>
+                            </div>
+
+                            {/* Search Bar */}
+                            <div className="w-full md:w-96 relative">
+                                <input
+                                    type="text"
+                                    placeholder="Search tasks..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full bg-white border border-gray-200 rounded-2xl px-5 py-3.5 pr-12 text-gray-700 shadow-sm outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
+                                />
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <Search size={18} />
+                                </div>
                             </div>
                         </div>
 
-                        {/* Search Bar */}
-                        <div className="mb-8">
-                            <input
-                                type="text"
-                                placeholder="Search tasks..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full bg-white/80 backdrop-blur-md rounded-lg px-4 py-3 text-black placeholder-black/70 outline-none focus:ring-2 focus:ring-pink-500"
-                            />
-                        </div>
-
                         {error && (
-                            <div className="bg-red-500/20 border border-red-500 text-red-100 px-4 py-3 rounded-lg mb-6">
+                            <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-xl mb-8 shadow-sm">
                                 {error}
                             </div>
                         )}
 
                         {loading && (
-                            <div className="text-center text-white">
-                                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-                                <p className="mt-4">Loading tasks...</p>
+                            <div className="flex flex-col items-center justify-center py-20">
+                                <div className="animate-spin rounded-full h-14 w-14 border-4 border-purple-100 border-t-purple-600"></div>
+                                <p className="mt-4 text-gray-500 font-medium">Loading tasks...</p>
                             </div>
                         )}
 
                         {!loading && filteredTasks.length === 0 ? (
-                            <div className="text-center py-12">
-                                <p className="text-gray/70 text-lg">
-                                    No tasks found. Create your first task!
+                            <div className="text-center py-20 bg-white rounded-[2rem] border border-dashed border-gray-300">
+                                <p className="text-gray-400 text-lg">
+                                    No tasks found. Time to be productive!
                                 </p>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                 {filteredTasks.map((task) => (
                                     <div
                                         key={task._id}
-                                        className="bg-white/80 backdrop-blur-md rounded-xl p-6 border border-white/20 hover:bg-gray/90 transition duration-300"
+                                        className="group bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 relative overflow-hidden"
                                     >
-                                        <div className="flex items-start justify-between mb-4">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                                        <div className="flex items-start justify-between mb-6">
                                             <button
                                                 onClick={() => handleToggleStatus(task)}
-                                                className="text-black/70 hover:text-black transition cursor-pointer"
+                                                className={`transition-all duration-300 cursor-pointer ${task.status === "completed" ? "text-green-500" : "text-gray-300 hover:text-purple-400"
+                                                    }`}
                                             >
                                                 {task.status === "completed" ? (
-                                                    <CheckCircle size={24} className="text-green-400" />
+                                                    <CheckCircle size={28} />
                                                 ) : (
-                                                    <Circle size={24} />
+                                                    <Circle size={28} />
                                                 )}
                                             </button>
-                                            <div className="flex gap-3">
+                                            <div className="flex gap-2">
                                                 <button
                                                     onClick={() => handleEdit(task)}
-                                                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                                                    className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all cursor-pointer"
                                                 >
-                                                    {task.status !== "completed" && <FilePen size={20} />}
+                                                    {task.status !== "completed" && <FilePen size={18} />}
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(task._id)}
-                                                    className="text-red-400 hover:text-red-700 transition cursor-pointer"
+                                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all cursor-pointer"
                                                 >
-                                                    <Trash2 size={20} />
+                                                    <Trash2 size={18} />
                                                 </button>
                                             </div>
                                         </div>
 
-                                        {/* <h3 className={`text-xl font-bold mb-2 ${task.status === "completed" ? "line-through text-black/60" : "text-black"
-                                            }`}>
-                                            {task.title}
-                                        </h3>
-
-                                        <p className={`text-sm mb-4 ${task.status === "completed" ? "text-black/50" : "text-black/70"
-                                            }`}>
-                                            {task.description}
-                                        </p> */}
-
                                         {editingTaskId === task._id ? (
-                                            <>
+                                            <div className="space-y-4">
                                                 <input
                                                     value={editTitle}
                                                     onChange={(e) => setEditTitle(e.target.value)}
-                                                    className="w-full mb-2 px-2 py-1  border-b-4 border-pink-400 focus:outline-none "
+                                                    // className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-all font-bold"
+                                                    className="
+                                                        w-full py-3 bg-transparent border-0 border-b-4 border-gray-300
+                                                        outline-none text-gray-700 placeholder-gray-400 font-medium
+                                                        bg-[linear-gradient(#7c3aed,#7c3aed)]
+                                                        bg-no-repeat bg-[length:0%_4px] bg-left-bottom
+                                                        focus:bg-[length:100%_4px] focus:border-transparent
+                                                        transition-all duration-300 ease-out"
                                                 />
 
                                                 <textarea
                                                     value={editDescription}
                                                     onChange={(e) => setEditDescription(e.target.value)}
-                                                    className="w-full mb-2 px-2 py-1  border-b-4 border-pink-400 focus:outline-none"
+                                                    // className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-all text-sm"
+                                                    className="
+                                                        w-full py-3 bg-transparent border-0 border-b-4 border-gray-300
+                                                        outline-none text-gray-700 placeholder-gray-400 font-medium
+                                                        bg-[linear-gradient(#7c3aed,#7c3aed)]
+                                                        bg-no-repeat bg-[length:0%_4px] bg-left-bottom
+                                                        focus:bg-[length:100%_4px] focus:border-transparent
+                                                        transition-all duration-300 ease-out"
                                                     rows={1}
                                                 />
 
-                                                <div className="flex gap-2">
+                                                <div className="flex gap-2 pt-2">
                                                     <button
                                                         onClick={() => handleSaveEdit(task._id)}
-                                                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                                                        className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-xl text-sm font-bold shadow-md shadow-purple-200 transition-all cursor-pointer"
                                                     >
                                                         Save
                                                     </button>
 
                                                     <button
                                                         onClick={handleCancelEdit}
-                                                        className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm"
+                                                        className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer"
                                                     >
                                                         Cancel
                                                     </button>
                                                 </div>
-                                            </>
+                                            </div>
                                         ) : (
                                             <>
                                                 {userRole === "admin" && (
-                                                    <div className="mb-3 p-2 bg-purple-100 rounded text-md">
-                                                        <p className="font-semibold text-purple-800">
-                                                            Username: {task.user?.username}
+                                                    <div className="mb-4 p-3 bg-purple-50 rounded-2xl text-xs border border-purple-100">
+                                                        <p className="font-bold text-purple-700 mb-1">
+                                                            Assignee: {task.user?.username}
                                                         </p>
-                                                        <p className="text-purple-600">
-                                                            Email: {task.user?.email}
+                                                        <p className="text-purple-500 truncate">
+                                                            {task.user?.email}
                                                         </p>
                                                     </div>
                                                 )}
-                                                <h3 className={`text-xl font-bold mb-2 ${task.status === "completed"
-                                                    ? "line-through text-black/60"
-                                                    : "text-black"
+                                                <h3 className={`text-xl font-bold mb-3 transition-all ${task.status === "completed" ? "line-through text-gray-400" : "text-gray-800"
                                                     }`}>
-                                                    Title: {task.title}
+                                                    {task.title}
                                                 </h3>
 
-                                                <p className={`text-sm mb-4 ${task.status === "completed"
-                                                    ? "line-through text-black/50"
-                                                    : "text-black/70"
+                                                <p className={`text-sm mb-6 leading-relaxed transition-all ${task.status === "completed" ? "text-gray-300" : "text-gray-600"
                                                     }`}>
-                                                    Description: {task.description}
+                                                    {task.description}
                                                 </p>
                                             </>
                                         )}
 
-                                        <div className="flex justify-end">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${task.status === "completed"
-                                                ? "bg-green-500/70 text-green-700"
-                                                : "bg-yellow-500/70 text-yellow-700"
+                                        <div className="flex justify-end pt-4 border-t border-gray-50">
+                                            <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${task.status === "completed"
+                                                ? "bg-green-100 text-green-600"
+                                                : "bg-amber-100 text-amber-600"
                                                 }`}>
                                                 {task.status}
                                             </span>

@@ -15,7 +15,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/task" element={<> <Navbar/> <TaskList /></>} />
-          <Route path="/task/add" element={<AddTask />} />
+          <Route path="/task/add" element={<> <Navbar/> <AddTask /></>} />
           <Route path="*" element={<> <Navbar/> <NotFound /></>} />
         </Routes>
       </BrowserRouter>
