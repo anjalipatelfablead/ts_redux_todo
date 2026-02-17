@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/slice/userSlice";
 import type { AppDispatch } from "../../redux/store";
 import authbg from "../../assets/authbg.jpg";
-import { User, Lock } from "lucide-react";
+// import { User, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
