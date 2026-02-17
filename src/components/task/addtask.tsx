@@ -37,6 +37,11 @@ const AddTask = () => {
         setLoading(true);
         try {
             await dispatch(createTask(form)).unwrap();
+            setForm({
+                title: "",
+                description: "",
+            });
+
             // await dispatch(getAllTasks());
             navigate("/task");
         } catch (err: any) {
