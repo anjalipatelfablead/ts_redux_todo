@@ -114,7 +114,7 @@ const TaskList = () => {
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
                             <div>
                                 <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
-                                    My Tasks
+                                    {userRole === "user" ? "My Tasks" : "Tasks"}
                                 </h1>
                                 <p className="text-gray-500 font-medium">
                                     You have <span className="text-purple-600">{tasks.length}</span> total tasks
