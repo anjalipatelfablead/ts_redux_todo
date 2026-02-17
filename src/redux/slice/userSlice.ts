@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-/* ================= USER INTERFACE (FROM MONGOOSE MODEL) ================= */
+/* -------------------- USER INTERFACE (from mongodb model) -------------------- */
 
 export interface User {
     _id: string;
@@ -12,7 +12,7 @@ export interface User {
     updatedAt?: string;
 }
 
-/* ================= REQUEST PAYLOADS ================= */
+/* -------------------- REQUEST PAYLOADS -------------------- */
 
 interface RegisterPayload {
     username: string;
@@ -25,7 +25,7 @@ interface LoginPayload {
     password: string;
 }
 
-/* ================= REDUX STATE ================= */
+/* -------------------- REDUX STATE -------------------- */
 
 interface UserState {
     user: User | null;
@@ -43,7 +43,7 @@ const initialState: UserState = {
 
 const BASE_URL = "http://localhost:3000";
 
-/* ================= REGISTER ================= */
+/* -------------------- REGISTER -------------------- */
 // createAsyncThunk<Returned, ThunkArg, ThunkApiConfig>()
 
 export const registerUser = createAsyncThunk<
@@ -67,7 +67,7 @@ export const registerUser = createAsyncThunk<
     }
 });
 
-/* ================= LOGIN ================= */
+/* -------------------- LOGIN -------------------- */
 
 export const loginUser = createAsyncThunk<
     { user: User; token: string },
@@ -97,7 +97,7 @@ export const loginUser = createAsyncThunk<
     }
 });
 
-/* ================= SLICE ================= */
+/* -------------------- SLICE -------------------- */
 
 const userSlice = createSlice({
     name: "user",
@@ -143,7 +143,7 @@ const userSlice = createSlice({
     },
 });
 
-/* ================= EXPORTS ================= */
+/* -------------------- EXPORTS -------------------- */
 
 export const { logout } = userSlice.actions;
 export default userSlice.reducer;
