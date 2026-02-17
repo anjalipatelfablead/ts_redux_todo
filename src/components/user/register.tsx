@@ -80,7 +80,6 @@ const Register = () => {
                                         bg-no-repeat bg-[length:0%_4px] bg-left-bottom
                                         focus:bg-[length:100%_4px] focus:border-transparent
                                         transition-all duration-300 ease-out"
-                                        required
                                     />
                                 </div>
 
@@ -98,7 +97,6 @@ const Register = () => {
                                         bg-no-repeat bg-[length:0%_4px] bg-left-bottom
                                         focus:bg-[length:100%_4px] focus:border-transparent
                                         transition-all duration-300 ease-out"
-                                        required
                                     />
                                 </div>
 
@@ -116,13 +114,12 @@ const Register = () => {
                                         bg-no-repeat bg-[length:0%_4px] bg-left-bottom
                                         focus:bg-[length:100%_4px] focus:border-transparent
                                         transition-all duration-300 ease-out"
-                                        required
                                     />
                                 </div>
 
                                 <button
                                     type="submit"
-                                    className="w-full mt-8 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 transition-all duration-300 py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                                    className="w-full mt-8 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 transition-all duration-300 py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] cursor-pointer"
                                 >
                                     Register
                                 </button>
