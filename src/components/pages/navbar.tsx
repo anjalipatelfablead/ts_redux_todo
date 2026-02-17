@@ -22,7 +22,7 @@ const Navbar = () => {
 
                 <h1 className="text-2xl font-extrabold tracking-tight flex items-center gap-2">
                     <span className="bg-white text-purple-600 px-2 py-1 rounded-lg">TM</span>
-                    Task Manager
+                    <span className="hidden sm:inline">Task Manager</span>
                 </h1>
 
                 <h2 className="text-lg">Welcome, {username}</h2>
