@@ -26,6 +26,7 @@ const Register = () => {
         await dispatch(registerUser(form)).unwrap();
         navigate("/login");
     };
+
     // return (
     //     <div className="min-h-screen flex">
 
@@ -80,87 +81,174 @@ const Register = () => {
     //     </div>
     // );
 
+    // return (
+    //     <div className="min-h-screen flex">
+
+    //         <div className="hidden md:flex w-1/2 relative">
+    //             <img
+    //                 src={authbg}
+    //                 alt="register"
+    //                 className="w-full h-full object-contain"
+    //             />
+    //             <div className="absolute inset-0 bg-gradient-to-br from-pink-500/40 to-indigo-900/60"></div>
+    //         </div>
+
+    //         <div className="flex w-full md:w-1/2 items-center justify-center">
+
+    //             <div className="w-full max-w-xl rounded-3xl p-8 bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-900 shadow-2xl text-white">
+
+    //                 <div className="flex justify-center mb-8">
+    //                     <div className="w-24 h-24 rounded-full border-2 border-white flex items-center justify-center">
+    //                         <User size={40} />
+    //                     </div>
+    //                 </div>
+
+    //                 <h2 className="text-2xl font-bold text-center mb-6">
+    //                     Create Account
+    //                 </h2>
+
+    //                 <form onSubmit={handleSubmit} className="space-y-6">
+
+    //                     <div className="flex items-center bg-white/20 rounded-lg px-4 py-3 backdrop-blur-md">
+    //                         <User className="text-white mr-3" size={20} />
+    //                         <input
+    //                             name="username"
+    //                             placeholder="USERNAME"
+    //                             onChange={handleChange}
+    //                             className="bg-transparent w-full outline-none text-white placeholder-white/70"
+    //                         />
+    //                     </div>
+
+    //                     <div className="flex items-center bg-white/20 rounded-lg px-4 py-3 backdrop-blur-md">
+    //                         <Mail className="text-white mr-3" size={20} />
+    //                         <input
+    //                             name="email"
+    //                             type="email"
+    //                             placeholder="EMAIL"
+    //                             onChange={handleChange}
+    //                             className="bg-transparent w-full outline-none text-white placeholder-white/70"
+    //                         />
+    //                     </div>
+
+    //                     <div className="flex items-center bg-white/20 rounded-lg px-4 py-3 backdrop-blur-md">
+    //                         <Lock className="text-white mr-3" size={20} />
+    //                         <input
+    //                             name="password"
+    //                             type="password"
+    //                             placeholder="PASSWORD"
+    //                             onChange={handleChange}
+    //                             className="bg-transparent w-full outline-none text-white placeholder-white/70"
+    //                         />
+    //                     </div>
+
+    //                     <button
+    //                         type="submit"
+    //                         className="w-full bg-pink-500 hover:bg-pink-600 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer"
+    //                     >
+    //                         REGISTER
+    //                     </button>
+
+    //                     <div className="border-t border-white/30 pt-4 text-center text-md text-white/60">
+    //                         already have an account?{" "}
+    //                         <span className="text-white font-semibold hover:underline cursor-pointer"
+    //                             onClick={() => navigate("/login")}
+    //                         >
+    //                             Login
+    //                         </span>
+    //                     </div>
+
+    //                 </form>
+    //             </div>
+    //         </div>
+    //     </div>
+    // );
+
     return (
-        <div className="min-h-screen flex">
+        <div className="min-h-screen flex items-center justify-center p-8">
+            <div className="flex bg-white rounded-3xl shadow-2xl overflow-hidden max-w-7xl w-full">
 
-            <div className="hidden md:flex w-1/2 relative">
-                <img
-                    src={authbg}
-                    alt="register"
-                    className="w-full h-full object-contain"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/40 to-indigo-900/60"></div>
-            </div>
+                {/* Left Image Section */}
+                <div className="hidden md:flex w-1/2 relative">
+                    <img
+                        src={authbg}
+                        alt="auth"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-purple-500/20 to-pink-500/20"></div>
+                </div>
 
-            <div className="flex w-full md:w-1/2 items-center justify-center">
+                {/* Right Form Section */}
+                <div className="flex w-full md:w-1/2 items-center justify-center p-10 bg-white">
+                    <div className="w-full max-w-md">
 
-                <div className="w-full max-w-xl rounded-3xl p-8 bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-900 shadow-2xl text-white">
+                        <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
+                            Create your account
+                        </h2>
 
-                    <div className="flex justify-center mb-8">
-                        <div className="w-24 h-24 rounded-full border-2 border-white flex items-center justify-center">
-                            <User size={40} />
-                        </div>
-                    </div>
+                        <form onSubmit={handleSubmit} className="space-y-6 mt-8">
 
-                    <h2 className="text-2xl font-bold text-center mb-6">
-                        Create Account
-                    </h2>
+                            {/* Username */}
+                            <div>
+                                <input
+                                    name="username"
+                                    type="text"
+                                    placeholder="Enter your username"
+                                    onChange={handleChange}
+                                    className="w-full px-0 mt-5 py-2 bg-transparent border-0 border-b-5 border-gray-300 focus:border-purple-500 outline-none transition-all"
+                                    required
+                                />
+                            </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Email */}
+                            <div>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    onChange={handleChange}
+                                    className="w-full px-0 mt-5 py-2 bg-transparent border-0 border-b-5 border-gray-300 focus:border-purple-500 outline-none transition-all"
+                                    required
+                                />
+                            </div>
 
-                        <div className="flex items-center bg-white/20 rounded-lg px-4 py-3 backdrop-blur-md">
-                            <User className="text-white mr-3" size={20} />
-                            <input
-                                name="username"
-                                placeholder="USERNAME"
-                                onChange={handleChange}
-                                className="bg-transparent w-full outline-none text-white placeholder-white/70"
-                            />
-                        </div>
+                            {/* Password */}
+                            <div>
+                                <input
+                                    name="password"
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    onChange={handleChange}
+                                    className="w-full px-0 mt-5 mb-5 py-2 bg-transparent border-0 border-b-5 border-gray-300 focus:border-purple-500 outline-none transition-all"
+                                    required
+                                />
+                            </div>
 
-                        <div className="flex items-center bg-white/20 rounded-lg px-4 py-3 backdrop-blur-md">
-                            <Mail className="text-white mr-3" size={20} />
-                            <input
-                                name="email"
-                                type="email"
-                                placeholder="EMAIL"
-                                onChange={handleChange}
-                                className="bg-transparent w-full outline-none text-white placeholder-white/70"
-                            />
-                        </div>
-
-                        <div className="flex items-center bg-white/20 rounded-lg px-4 py-3 backdrop-blur-md">
-                            <Lock className="text-white mr-3" size={20} />
-                            <input
-                                name="password"
-                                type="password"
-                                placeholder="PASSWORD"
-                                onChange={handleChange}
-                                className="bg-transparent w-full outline-none text-white placeholder-white/70"
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="w-full bg-pink-500 hover:bg-pink-600 transition duration-300 py-3 rounded-lg font-bold text-lg cursor-pointer"
-                        >
-                            REGISTER
-                        </button>
-
-                        <div className="border-t border-white/30 pt-4 text-center text-md text-white/60">
-                            already have an account?{" "}
-                            <span className="text-white font-semibold hover:underline cursor-pointer"
-                                onClick={() => navigate("/login")}
+                            <button
+                                type="submit"
+                                className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 transition-all duration-300 py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
                             >
-                                Login
-                            </span>
-                        </div>
+                                Register
+                            </button>
 
-                    </form>
+                            <div className="text-center pt-4">
+                                <p className="text-gray-600 text-sm">
+                                    Already have an account?{' '}
+                                    <span
+                                        className="text-purple-500 font-semibold hover:underline cursor-pointer"
+                                        onClick={() => navigate("/login")}
+                                    >
+                                        Login
+                                    </span>
+                                </p>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     );
+
 
 };
 
