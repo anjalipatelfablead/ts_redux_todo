@@ -152,7 +152,7 @@ const TaskList = () => {
                         {!loading && filteredTasks.length === 0 ? (
                             <div className="text-center py-20 bg-white rounded-[2rem] border border-dashed border-gray-300">
                                 <p className="text-gray-400 text-lg">
-                                    No tasks found. Time to be productive!
+                                    No tasks found...!
                                 </p>
                             </div>
                         ) : (
@@ -251,12 +251,12 @@ const TaskList = () => {
                                                 )}
                                                 <h3 className={`text-xl font-bold mb-3 transition-all ${task.status === "completed" ? "line-through text-gray-400" : "text-gray-800"
                                                     }`}>
-                                                    {task.title}
+                                                    Title: {task.title}
                                                 </h3>
 
                                                 <p className={`text-sm mb-6 leading-relaxed transition-all ${task.status === "completed" ? "text-gray-300" : "text-gray-600"
                                                     }`}>
-                                                    {task.description}
+                                                    Description: {task.description}
                                                 </p>
                                             </>
                                         )}
